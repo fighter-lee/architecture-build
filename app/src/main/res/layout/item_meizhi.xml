@@ -11,7 +11,7 @@
               android:orientation="vertical"
               android:visibility="visible">
 
-    <com.github.chrisbanes.photoview.PhotoView
+    <ImageView
         android:id="@+id/meizi_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -62,4 +62,8 @@ public abstract class SwipeRefreshBaseFragment extends BaseFragment {
             swipeRefreshView.setRefreshing(true);
         }
     }
+
+    public boolean isRequestDataRefresh() {
+        return mIsRequestDataRefresh;
+    }
 }

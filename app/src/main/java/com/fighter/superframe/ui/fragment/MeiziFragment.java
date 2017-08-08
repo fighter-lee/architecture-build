@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
-import butterknife.Unbinder;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -33,7 +32,6 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
     RecyclerView list;
     @BindView(R.id.swipe_refresh_layout)
     SwipeRefreshLayout swipeRefreshLayout;
-    Unbinder unbinder;
     private MeizhiListAdapter adapter;
     private int mPage = 1;
     private List<ImageInfo.ResultsBean> data_list = new ArrayList<>();
@@ -107,11 +105,13 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
                     @Override
                     public void onError(Throwable throwable) {
                         Trace.d(TAG, "onError() " + throwable.toString());
+                        setRefresh(false);
                     }
 
                     @Override
                     public void onComplete() {
                         Trace.d(TAG, "onComplete() ");
+                        setRefresh(false);
                     }
                 });
     }
