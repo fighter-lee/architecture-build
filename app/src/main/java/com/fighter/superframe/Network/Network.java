@@ -13,7 +13,6 @@ public class Network {
 
     private static OkHttpClient okHttpClient = new OkHttpClient();
     private static GankApi gankApi;
-    private static IotApi iotApi;
 
     public static GankApi getGankApi() {
         if (gankApi == null) {
@@ -26,17 +25,4 @@ public class Network {
         }
         return gankApi;
     }
-
-    public static IotApi getIOTApi() {
-        if (iotApi == null) {
-            iotApi = new Retrofit.Builder()
-                    .baseUrl("http://iotapi.adups.com/")
-                    .client(okHttpClient)
-                    .addConverterFactory(GsonConverterFactory.create())
-                    .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                    .build().create(IotApi.class);
-        }
-        return iotApi;
-    }
-
 }

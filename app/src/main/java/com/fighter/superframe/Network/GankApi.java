@@ -1,11 +1,12 @@
 package com.fighter.superframe.Network;
 
-import android.database.Observable;
 
+import com.fighter.superframe.info.AndroidInfo;
 import com.fighter.superframe.info.ImageInfo;
 
 import java.util.List;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.http.GET;
@@ -62,6 +63,8 @@ public interface GankApi {
 
     //--------------rxjava----------------
     @GET("data/福利/{number}/{page}")
-    Observable<ImageInfo> getRxFuli(@Path("number") String number,@Path("page") String page);
+    Observable<ImageInfo> getRxFuli(@Path("number") String number, @Path("page") String page);
 
+    @GET("data/Android/{number}/{page}")
+    Observable<AndroidInfo> getRxAndroidInfo(@Path("number")String number, @Path("page")String page);
 }

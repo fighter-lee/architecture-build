@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/meizhi_card"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="1dp"
+              android:layout_marginRight="1dp"
+              android:layout_marginTop="2dp"
+              android:background="@drawable/bg_card"
+              android:clickable="true"
+              android:orientation="vertical"
+              android:visibility="visible">
+
+    <com.github.chrisbanes.photoview.PhotoView
+        android:id="@+id/meizi_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+
+        android:scaleType="fitXY"/>
+
+
+
+</LinearLayout>
