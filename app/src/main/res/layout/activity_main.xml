@@ -18,7 +18,7 @@
             android:layout_height="200dp"
             app:contentScrim="@color/blue"
             app:expandedTitleMarginStart="100dp"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap"
+            app:layout_scrollFlags="scroll|enterAlwaysCollapsed|enterAlways"
             app:statusBarScrim="@android:color/transparent"
             app:titleEnabled="false">
 
@@ -36,7 +36,32 @@
                 android:layout_height="?attr/actionBarSize"
                 app:layout_collapseMode="pin"
                 app:popupTheme="@style/AppTheme.PopupOverlay"
-                app:title=""/>
+                app:title="">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="?attr/actionBarSize"
+                    android:text="干货集中营"
+                    android:alpha="0"/>
+
+                <!--<TextView-->
+                    <!--android:id="@+id/toolbar_title"-->
+                    <!--android:layout_width="match_parent"-->
+                    <!--android:layout_height="?attr/actionBarSize"-->
+                    <!--android:alpha="0"-->
+                    <!--android:elevation="10dp"-->
+                    <!--android:fitsSystemWindows="true"-->
+                    <!--android:gravity="center"-->
+                    <!--android:text="干货集中营"-->
+                    <!--android:textColor="@android:color/white"-->
+                    <!--android:textSize="20sp"-->
+                    <!--android:textStyle="bold"-->
+                    <!--app:layout_behavior="@string/simple_view_behavior"-->
+                    <!--app:svb_dependOn="@id/home_appbar"-->
+                    <!--app:svb_dependType="y"-->
+                    <!--app:svb_targetAlpha="1"-->
+                    <!--app:svb_targetY="0dp"/>-->
+
+            </android.support.v7.widget.Toolbar>
 
 
         </android.support.design.widget.CollapsingToolbarLayout>
@@ -56,24 +81,6 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
-
-    <TextView
-        android:fitsSystemWindows="true"
-        android:id="@+id/toolbar_title"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        android:alpha="0"
-        android:elevation="10dp"
-        android:gravity="center"
-        android:text="干货集中营"
-        android:textColor="@android:color/white"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        app:layout_behavior="@string/simple_view_behavior"
-        app:svb_dependOn="@id/home_appbar"
-        app:svb_dependType="y"
-        app:svb_targetAlpha="1"
-        app:svb_targetY="0dp"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

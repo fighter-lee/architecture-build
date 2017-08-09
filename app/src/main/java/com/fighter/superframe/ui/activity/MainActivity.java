@@ -1,7 +1,6 @@
 package com.fighter.superframe.ui.activity;
 
 
-import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
@@ -10,8 +9,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.fighter.superframe.R;
@@ -20,7 +17,6 @@ import com.fighter.superframe.ui.MainView;
 import com.fighter.superframe.ui.adapter.MeiziViewpageAdapter;
 import com.fighter.superframe.ui.base.BaseActivity;
 import com.fighter.superframe.ui.fragment.MeiziFragment;
-import com.fighter.superframe.utils.ScreenUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -31,8 +27,8 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
     ViewPager homeViewPager;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-    @BindView(R.id.toolbar_title)
-    TextView toolbarTitle;
+//    @BindView(R.id.toolbar_title)
+//    TextView toolbarTitle;
     @BindView(R.id.home_toolbar)
     Toolbar homeToolbar;
     @BindView(R.id.home_tabLayout)
@@ -41,13 +37,13 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4 以上版本
-            // 设置 Toolbar 高度为 80dp，适配状态栏
-            ViewGroup.LayoutParams layoutParams = toolbarTitle.getLayoutParams();
-            //            layoutParams.height = ScreenUtil.dip2px(this,ScreenUtil.getStatusBarHeight(this));
-            layoutParams.height = ScreenUtil.dip2px(this, 80);
-            toolbarTitle.setLayoutParams(layoutParams);
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4 以上版本
+//            // 设置 Toolbar 高度为 80dp，适配状态栏
+//            ViewGroup.LayoutParams layoutParams = toolbarTitle.getLayoutParams();
+//            //            layoutParams.height = ScreenUtil.dip2px(this,ScreenUtil.getStatusBarHeight(this));
+//            layoutParams.height = ScreenUtil.dip2px(this, 80);
+//            toolbarTitle.setLayoutParams(layoutParams);
+//        }
         initToolBar(homeToolbar, false, "");
         new MainPresenterImpl(this, this);
         presenter.start();
@@ -57,6 +53,10 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
         viewpageAdapter.addFragment(new MeiziFragment());
         homeViewPager.setAdapter(viewpageAdapter);
         homeTabLayout.setupWithViewPager(homeViewPager);
+        if (tilte.length <= 1){
+            homeTabLayout.setVisibility(View.GONE);
+        }
+
     }
 
     /**

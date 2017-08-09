@@ -1,5 +1,6 @@
 package com.fighter.superframe.ui.fragment;
 
+import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
@@ -8,6 +9,7 @@ import com.adups.trace.Trace;
 import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
 import com.fighter.superframe.info.ImageInfo;
+import com.fighter.superframe.ui.activity.PhotoActivity;
 import com.fighter.superframe.ui.adapter.MeizhiListAdapter;
 import com.fighter.superframe.ui.base.SwipeRefreshBaseFragment;
 import com.fighter.superframe.ui.view.SpacesItemDecoration;
@@ -54,6 +56,16 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
         list.addItemDecoration(decoration);
         list.addOnScrollListener(getOnBottomListener(layoutManager));
         requestData(true);
+
+        adapter.setOnItemClickListener(new MeizhiListAdapter.OnItemClickListener() {
+            @Override
+            public void onClick(ImageInfo.ResultsBean info) {
+                Intent intent = new Intent(getActivity(), PhotoActivity.class);
+                Trace.d(TAG, "onClick() "+info.getUrl());
+                intent.putExtra(PhotoActivity.PHOTO_URL,info.getUrl());
+                getActivity().startActivity(intent);
+            }
+        });
     }
 
     @Override

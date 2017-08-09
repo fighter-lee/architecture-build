@@ -17,7 +17,6 @@ import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 
 /**
  * Created by fighter_lee on 2017/8/8.
@@ -47,11 +46,20 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, int position) {
+    public void onBindViewHolder(MyViewHolder holder, final int position) {
         Glide.with(mCx)
                 .load(meiziInfo.get(position).getUrl())
                 .centerCrop()
                 .into(holder.meiziView);
+
+        holder.meizhiCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != listener){
+                    listener.onClick(meiziInfo.get(position));
+                }
+            }
+        });
     }
 
     @Override
@@ -75,15 +83,9 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
             meiziView.setLayoutParams(params);
         }
 
-        @OnClick(R.id.meizi_view)
-        public void onViewClicked() {
-            if (null != listener){
-
-            }
-        }
     }
-    interface OnItemClickListener{
-        void onClick();
+    public interface OnItemClickListener{
+        void onClick(ImageInfo.ResultsBean info);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

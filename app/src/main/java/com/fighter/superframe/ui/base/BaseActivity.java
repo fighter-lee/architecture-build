@@ -78,7 +78,7 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 子类可以重写决定是否使用透明状态栏
      */
     protected boolean translucentStatusBar() {
-        return true;
+        return false;
     }
 
     /**
