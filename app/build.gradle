@@ -1,5 +1,9 @@
 apply plugin: 'com.android.application'
 
+def keystorePropertiesFile = rootProject.file("keystore.properties");
+def keystoreProperties = new Properties()
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 25
     buildToolsVersion "25.0.3"
@@ -10,10 +14,42 @@ android {
         versionCode 1
         versionName "1.0"
     }
+
+    signingConfigs {
+        config {
+            storeFile file(keystoreProperties['ReleaseStoreFile'])
+            storePassword keystoreProperties['ReleaseStorePassword']
+            keyAlias keystoreProperties['ReleaseKeyAlias']
+            keyPassword keystoreProperties['ReleaseKeyPassword']
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            buildConfigField "boolean", "DEBUG_MODE", "false"
+            signingConfig signingConfigs.config
+        }
+    }
+
+    productFlavors {
+        xiaomi {}
+        wangdoujia {}
+        yingyongbao {}
+    }
+    productFlavors.all {
+        flavor -> flavor.manifestPlaceholders = [UMENG_CHANNEL_VALUE: name]
+    }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+            output.outputFile = new File(output.outputFile.parent, rootProject.getName()
+                    + "-" + variant.flavorName
+                    + "-" + buildType.name
+                    + "-v" + defaultConfig.versionName
+                    + "-" + defaultConfig.versionCode
+                    + ".apk");
         }
     }
 }
@@ -24,15 +60,20 @@ dependencies {
     compile "com.android.support:design:25.3.1"
     compile 'com.jakewharton:butterknife:8.5.1'
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.5.1'
+
+    //rxjava2+retrofit2+converter-gson2+adapter-rxjava2
     compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile 'io.reactivex.rxjava2:rxjava:2.1.2'
     compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'com.squareup.retrofit2:adapter-rxjava2:2.3.0'
 //    compile 'com.squareup.retrofit2:adapter-rxjava:2.3.0'     //适用于rxjava 而非rxjava2
+
     compile 'com.google.code.gson:gson:2.8.0'
     compile 'com.github.chrisbanes:PhotoView:2.0.0'
     compile 'com.github.bumptech.glide:glide:3.6.1'
-    compile 'com.adups.iot:trace:1.0.2' //日志类
 
+    compile 'com.adups.iot:trace:1.0.2' //日志类
+    //友盟
+    compile project(':Pushlib')
 }

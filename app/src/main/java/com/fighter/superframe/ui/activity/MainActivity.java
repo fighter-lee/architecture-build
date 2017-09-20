@@ -2,8 +2,8 @@ package com.fighter.superframe.ui.activity;
 
 
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -19,32 +19,24 @@ import com.fighter.superframe.ui.base.BaseActivity;
 import com.fighter.superframe.ui.fragment.MeiziFragment;
 
 import butterknife.BindView;
+import butterknife.ButterKnife;
 import butterknife.OnClick;
 
 public class MainActivity extends BaseActivity implements MainView<MainPresenterImpl> {
 
+    @BindView(R.id.id_tool_bar)
+    Toolbar idToolBar;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
     @BindView(R.id.home_viewPager)
     ViewPager homeViewPager;
     @BindView(R.id.fab)
     FloatingActionButton fab;
-//    @BindView(R.id.toolbar_title)
-//    TextView toolbarTitle;
-    @BindView(R.id.home_toolbar)
-    Toolbar homeToolbar;
-    @BindView(R.id.home_tabLayout)
-    TabLayout homeTabLayout;
     private MainPresenterImpl presenter;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) { // 4.4 以上版本
-//            // 设置 Toolbar 高度为 80dp，适配状态栏
-//            ViewGroup.LayoutParams layoutParams = toolbarTitle.getLayoutParams();
-//            //            layoutParams.height = ScreenUtil.dip2px(this,ScreenUtil.getStatusBarHeight(this));
-//            layoutParams.height = ScreenUtil.dip2px(this, 80);
-//            toolbarTitle.setLayoutParams(layoutParams);
-//        }
-        initToolBar(homeToolbar, false, "");
+
         new MainPresenterImpl(this, this);
         presenter.start();
 
@@ -52,10 +44,6 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
         MeiziViewpageAdapter viewpageAdapter = new MeiziViewpageAdapter(getSupportFragmentManager(), tilte);
         viewpageAdapter.addFragment(new MeiziFragment());
         homeViewPager.setAdapter(viewpageAdapter);
-        homeTabLayout.setupWithViewPager(homeViewPager);
-        if (tilte.length <= 1){
-            homeTabLayout.setVisibility(View.GONE);
-        }
 
     }
 
@@ -106,4 +94,10 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
         this.presenter = presenter;
     }
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        // TODO: add setContentView(...) invocation
+        ButterKnife.bind(this);
+    }
 }

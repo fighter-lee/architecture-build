@@ -1,0 +1,11 @@
+*.iml
+.gradle
+/local.properties
+/fighter_lee.jks
+/keystore.properties
+/.idea/workspace.xml
+/.idea/libraries
+.DS_Store
+/build
+/captures
+.externalNativeBuild
