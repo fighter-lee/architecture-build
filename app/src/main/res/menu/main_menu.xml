@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/menu_check_up"
+        android:title="检查更新"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/menu_about"
+        android:title="关于"
+        app:showAsAction="collapseActionView" />
+
+    <item
+        android:id="@+id/change_view"
+        android:title="切换"
+        app:showAsAction="collapseActionView" />
+    <item
+        android:id="@+id/menu_search"
+        android:icon="@drawable/ic_search"
+        android:title="搜索"
+        app:showAsAction="always" />
+
+</menu>

@@ -5,9 +5,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    tools:menu="main_menu"
     tools:context="com.fighter.superframe.ui.activity.MainActivity">
 
-    <include layout="@layout/toolbar_common"/>
+    <include layout="@layout/base_toolbar"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/home_viewPager"

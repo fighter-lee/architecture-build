@@ -20,18 +20,18 @@ import butterknife.BindView;
 public class PhotoActivity extends BaseActivity {
     public static final String PHOTO_URL = "photo_url";
     private static final String TAG = "PhotoActivity";
+    @BindView(R.id.id_tool_bar)
+    Toolbar idToolBar;
+    @BindView(R.id.appbar)
+    AppBarLayout appbar;
     @BindView(R.id.picture)
     PhotoView picture;
-    @BindView(R.id.toolbar)
-    Toolbar toolbar;
-    @BindView(R.id.app_bar_layout)
-    AppBarLayout appBarLayout;
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         Intent intent = getIntent();
         String url = intent.getStringExtra(PHOTO_URL);
-        initToolBar(toolbar, true, "");
+        initToolBar(idToolBar, true, "");
         Glide.with(this)
                 .load(url)
                 .centerCrop()
@@ -54,11 +54,12 @@ public class PhotoActivity extends BaseActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
+        switch (item.getItemId()) {
             case android.R.id.home:
                 finish();
                 return true;
         }
         return super.onOptionsItemSelected(item);
     }
+
 }

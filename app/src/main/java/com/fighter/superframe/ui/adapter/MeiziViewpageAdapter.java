@@ -13,12 +13,10 @@ import java.util.List;
 
 public class MeiziViewpageAdapter extends FragmentPagerAdapter {
 
-    private String[] title;
     private List<Fragment> mFragments = new ArrayList<>();
 
-    public MeiziViewpageAdapter(FragmentManager fm, String[] titles) {
+    public MeiziViewpageAdapter(FragmentManager fm) {
         super(fm);
-        title = titles;
     }
 
     public void addFragment(Fragment fragment) {
@@ -35,12 +33,4 @@ public class MeiziViewpageAdapter extends FragmentPagerAdapter {
         return mFragments.size();
     }
 
-    @Override
-    public CharSequence getPageTitle(int position) {
-        if (title.length <= 1) {
-            return "";
-        } else {
-            return title[position];
-        }
-    }
 }

@@ -2,6 +2,7 @@ package com.fighter.superframe.Network;
 
 
 import com.fighter.superframe.info.AndroidInfo;
+import com.fighter.superframe.info.GankInfo;
 import com.fighter.superframe.info.ImageInfo;
 
 import java.util.List;
@@ -26,6 +27,7 @@ public interface GankApi {
 
     /**
      * 全路径替换url，覆盖baseurl
+     *
      * @param url
      * @return
      */
@@ -35,36 +37,47 @@ public interface GankApi {
     /**
      * "data/福利/{number}/{page}"中的number和page将会被@Path参数替换
      * 拓长性强于{@link #getFuli2(String, String)}
+     *
      * @param number
      * @param page
      * @return
      */
-    @HTTP(method = "GET",path = "data/福利/{number}/{page}",hasBody = false)
-    Call<ResponseBody> getFuli1(@Path("number") String number,@Path("page") String page);
+    @HTTP(method = "GET", path = "data/福利/{number}/{page}", hasBody = false)
+    Call<ResponseBody> getFuli1(@Path("number") String number, @Path("page") String page);
 
     /**
      * 上面方法的简写形式
+     *
      * @param number
      * @param page
      * @return
      */
     @GET("data/福利/{number}/{page}")
-    Call<ResponseBody> getFuli2(@Path("number") String number,@Path("page") String page);
+    Call<ResponseBody> getFuli2(@Path("number") String number, @Path("page") String page);
 
     /**
      * 使用Gson将json转成bean，需要添加addConverterFactory(GsonConverterFactory.create())
      * {@link Network#getGankApi()}
+     *
      * @param number
      * @param page
      * @return
      */
     @GET("data/福利/{number}/{page}")
-    Call<ImageInfo> getFuliWithGson(@Path("number") String number,@Path("page") String page);
+    Call<ImageInfo> getFuliWithGson(@Path("number") String number, @Path("page") String page);
 
     //--------------rxjava----------------
     @GET("data/福利/{number}/{page}")
     Observable<ImageInfo> getRxFuli(@Path("number") String number, @Path("page") String page);
 
+
     @GET("data/Android/{number}/{page}")
-    Observable<AndroidInfo> getRxAndroidInfo(@Path("number")String number, @Path("page")String page);
+    Observable<ResponseBody> getAndroid(@Path("number") String number, @Path("page") String page);
+
+    @GET("data/Android/{number}/{page}")
+    Observable<AndroidInfo> getRxAndroidInfo(@Path("number") String number, @Path("page") String page);
+
+    @GET("data/{type}/{number}/{page}")
+    Observable<GankInfo> getGankInfo(@Path("type") String type, @Path("number") String number, @Path("page") String page);
+
 }

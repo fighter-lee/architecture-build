@@ -79,6 +79,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      * 子类可以重写改变状态栏颜色
      */
     protected int setStatusBarColor() {
-        return R.color.blue;
+        return R.color.colorPrimary;
     }
 }

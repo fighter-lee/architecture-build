@@ -8,19 +8,20 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import com.adups.trace.Trace;
 import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
-import com.fighter.superframe.info.ImageInfo;
+import com.fighter.superframe.constant.GankType;
+import com.fighter.superframe.info.GankInfo;
 import com.fighter.superframe.ui.activity.PhotoActivity;
 import com.fighter.superframe.ui.adapter.MeizhiListAdapter;
 import com.fighter.superframe.ui.base.SwipeRefreshBaseFragment;
 import com.fighter.superframe.ui.view.SpacesItemDecoration;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
-import io.reactivex.Observer;
+import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.functions.BiFunction;
+import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -36,7 +37,8 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
     SwipeRefreshLayout swipeRefreshLayout;
     private MeizhiListAdapter adapter;
     private int mPage = 1;
-    private List<ImageInfo.ResultsBean> data_list = new ArrayList<>();
+    private ArrayList<GankInfo.ResultsBean> data_list = new ArrayList<>();
+    private StaggeredGridLayoutManager layoutManager;
 
     @Override
     protected int getContentViewLayoutID() {
@@ -47,11 +49,12 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
     protected void init() {
         Trace.d(TAG, "init() ");
         setSwipeRefreshView(swipeRefreshLayout);
-        final StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2,
+        layoutManager = new StaggeredGridLayoutManager(2,
                 StaggeredGridLayoutManager.VERTICAL);
         list.setLayoutManager(layoutManager);
         adapter = new MeizhiListAdapter(getActivity());
         list.setAdapter(adapter);
+        list.setHasFixedSize(true);
         SpacesItemDecoration decoration = new SpacesItemDecoration(30);
         list.addItemDecoration(decoration);
         list.addOnScrollListener(getOnBottomListener(layoutManager));
@@ -59,10 +62,10 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
 
         adapter.setOnItemClickListener(new MeizhiListAdapter.OnItemClickListener() {
             @Override
-            public void onClick(ImageInfo.ResultsBean info) {
+            public void onClick(GankInfo.ResultsBean info) {
                 Intent intent = new Intent(getActivity(), PhotoActivity.class);
-                Trace.d(TAG, "onClick() "+info.getUrl());
-                intent.putExtra(PhotoActivity.PHOTO_URL,info.getUrl());
+                Trace.d(TAG, "onClick() " + info.getUrl());
+                intent.putExtra(PhotoActivity.PHOTO_URL, info.getUrl());
                 getActivity().startActivity(intent);
             }
         });
@@ -94,24 +97,65 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
     }
 
     public void requestData(final boolean clear) {
-        Network.getGankApi()
-                .getRxFuli("10", String.valueOf(mPage))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<ImageInfo>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-                        Trace.d(TAG, "onSubscribe() ");
-                    }
 
+        Observable<GankInfo> shipingObserable = Network.getGankApi().getGankInfo(GankType.TYPE_SHIPING,"10",String.valueOf(mPage))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable<GankInfo> fuliObserable = Network.getGankApi().getGankInfo(GankType.TYPE_FULI,"10",String.valueOf(mPage))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread());
+
+        Observable.zip(shipingObserable, fuliObserable, new BiFunction<GankInfo, GankInfo, ArrayList<GankInfo.ResultsBean>>() {
+            @Override
+            public ArrayList<GankInfo.ResultsBean> apply(GankInfo gankInfo, GankInfo gankInfo2) throws Exception {
+                ArrayList<GankInfo.ResultsBean> resultsBeans = new ArrayList<>();
+                resultsBeans.addAll(gankInfo.getResults());
+                resultsBeans.addAll(gankInfo2.getResults());
+                return resultsBeans;
+            }
+        }).observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Consumer<ArrayList<GankInfo.ResultsBean>>() {
                     @Override
-                    public void onNext(ImageInfo imageInfo) {
-                        Trace.d(TAG, "onNext() " + imageInfo.getResults().size());
+                    public void accept(ArrayList<GankInfo.ResultsBean> resultsBeans) throws Exception {
                         if (clear){
                             data_list.clear();
                         }
-                        data_list.addAll(imageInfo.getResults());
+                        data_list.addAll(resultsBeans);
+                    }
+                });
+
+        /*Observable fuliObservable = Network.getGankApi()
+                .getGankInfo(GankType.TYPE_FULI,"10",String.valueOf(mPage))
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.io())
+                .subscribe(new Observer<GankInfo>() {
+                    @Override
+                    public void onSubscribe(Disposable disposable) {
+
+                    }
+
+                    @Override
+                    public void onNext(GankInfo gankInfo) {
+                        Trace.d(TAG, "onNext() " + gankInfo.getResults().size());
+                        if (clear) {
+                            data_list.clear();
+                        }
+                        data_list.addAll(gankInfo.getResults());
                         adapter.setData(data_list);
+
+                        //实现切换
+                        //                        if (clear) {
+                        //                            if (null != layoutManager) {
+                        //                                layoutManager.setSpanCount(2);
+                        //                                list.postInvalidate();
+                        //                            }
+                        //                        } else {
+                        //                            if (null != layoutManager) {
+                        //                                layoutManager.setSpanCount(1);
+                        //                                list.postInvalidate();
+                        //                            }
+                        //                        }
                     }
 
                     @Override
@@ -125,7 +169,9 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
                         Trace.d(TAG, "onComplete() ");
                         setRefresh(false);
                     }
-                });
+                });*/
+
+
     }
 
 }

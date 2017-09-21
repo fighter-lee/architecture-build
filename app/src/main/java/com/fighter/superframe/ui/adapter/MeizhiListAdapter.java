@@ -1,16 +1,17 @@
 package com.fighter.superframe.ui.adapter;
 
 import android.content.Context;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.fighter.superframe.R;
-import com.fighter.superframe.info.ImageInfo;
+import com.fighter.superframe.info.GankInfo;
 import com.fighter.superframe.utils.ScreenUtil;
 
 import java.util.List;
@@ -26,10 +27,10 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
 
     private static final String TAG = "MeizhiListAdapter";
     private Context mCx;
-    private List<ImageInfo.ResultsBean> meiziInfo;
+    private List<GankInfo.ResultsBean> meiziInfo;
     private OnItemClickListener listener;
 
-    public void setData(List<ImageInfo.ResultsBean> meiziInfo) {
+    public void setData(List<GankInfo.ResultsBean> meiziInfo) {
         this.meiziInfo = meiziInfo;
         this.notifyDataSetChanged();
     }
@@ -52,10 +53,13 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
                 .centerCrop()
                 .into(holder.meiziView);
 
+        holder.date.setText(meiziInfo.get(position).getPublishedAt());
+        holder.tvDesc.setText(meiziInfo.get(position).getDesc());
+
         holder.meizhiCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (null != listener){
+                if (null != listener) {
                     listener.onClick(meiziInfo.get(position));
                 }
             }
@@ -72,20 +76,25 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
         @BindView(R.id.meizi_view)
         ImageView meiziView;
         @BindView(R.id.meizhi_card)
-        LinearLayout meizhiCard;
+        CardView meizhiCard;
+        @BindView(R.id.tv_desc)
+        TextView tvDesc;
+        @BindView(R.id.date)
+        TextView date;
 
         public MyViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             ViewGroup.LayoutParams params = meiziView.getLayoutParams();
-            params.width = (ScreenUtil.getScreenWidth(mCx) - 4) / 2;
-            params.height = (int) (params.width * 1.2);
+            int width = (ScreenUtil.getScreenWidth(mCx) - 4) / 2;
+            params.height = (int) (width * 1.2);
             meiziView.setLayoutParams(params);
         }
 
     }
-    public interface OnItemClickListener{
-        void onClick(ImageInfo.ResultsBean info);
+
+    public interface OnItemClickListener {
+        void onClick(GankInfo.ResultsBean info);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {
