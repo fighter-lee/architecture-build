@@ -22,7 +22,7 @@
         </activity>
 
         <activity android:name=".ui.activity.PhotoActivity"/>
-
+        <activity android:name=".ui.activity.GankActivity"/>
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="59c1c8a0734be457f3000017"/>

@@ -7,8 +7,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.adups.trace.Trace;
 import com.bumptech.glide.Glide;
 import com.fighter.superframe.R;
 import com.fighter.superframe.info.GankInfo;
@@ -47,20 +49,25 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
     }
 
     @Override
-    public void onBindViewHolder(MyViewHolder holder, final int position) {
+    public void onBindViewHolder(final MyViewHolder holder, final int position) {
         Glide.with(mCx)
                 .load(meiziInfo.get(position).getUrl())
                 .centerCrop()
                 .into(holder.meiziView);
-
-        holder.date.setText(meiziInfo.get(position).getPublishedAt());
         holder.tvDesc.setText(meiziInfo.get(position).getDesc());
-
-        holder.meizhiCard.setOnClickListener(new View.OnClickListener() {
+        holder.meiziView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (null != listener) {
-                    listener.onClick(meiziInfo.get(position));
+                    listener.onPicClick(meiziInfo.get(position));
+                }
+            }
+        });
+        holder.tvDesc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (null != listener) {
+                    listener.onTextClick(meiziInfo.get(position));
                 }
             }
         });
@@ -79,8 +86,8 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
         CardView meizhiCard;
         @BindView(R.id.tv_desc)
         TextView tvDesc;
-        @BindView(R.id.date)
-        TextView date;
+        @BindView(R.id.meizi_item_rl)
+        RelativeLayout meiziItemRl;
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -89,12 +96,15 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
             int width = (ScreenUtil.getScreenWidth(mCx) - 4) / 2;
             params.height = (int) (width * 1.2);
             meiziView.setLayoutParams(params);
+            Trace.d(TAG, "MyViewHolder() " + meiziView.getHeight() + "," + meiziView.getWidth());
         }
 
     }
 
     public interface OnItemClickListener {
-        void onClick(GankInfo.ResultsBean info);
+        void onPicClick(GankInfo.ResultsBean info);
+
+        void onTextClick(GankInfo.ResultsBean info);
     }
 
     public void setOnItemClickListener(OnItemClickListener listener) {

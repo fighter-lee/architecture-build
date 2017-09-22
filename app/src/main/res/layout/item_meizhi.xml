@@ -7,51 +7,39 @@
                                     android:layout_height="wrap_content"
                                     android:background="@drawable/bg_card"
                                     android:clickable="true"
-                                    tools:showIn="@layout/fragment_meizi"
                                     android:foreground="?android:attr/selectableItemBackground"
                                     app:cardCornerRadius="8dp"
-                                    app:cardElevation="8dp">
-
-
-    <ImageView
-        android:id="@+id/meizi_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:adjustViewBounds="true"
-        android:scaleType="fitXY"
-        tools:src="@mipmap/ic_launcher"/>
+                                    app:cardElevation="8dp"
+                                    tools:showIn="@layout/fragment_meizi">
 
     <RelativeLayout
+        android:id="@+id/meizi_item_rl"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/meizi_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:adjustViewBounds="true"
+            android:scaleType="fitXY"
+            tools:src="@mipmap/ic_launcher"/>
+
         <TextView
             android:id="@+id/tv_desc"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:layout_centerInParent="true"
-            android:gravity="bottom|center_horizontal"
-            android:paddingBottom="8dp"
-            android:textColor="@android:color/white"
-            android:textSize="26sp"
-            android:textStyle="bold"
-            tools:text="1921/2/12" />
-
-        <TextView
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp"
-            android:id="@+id/date"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_below="@id/meizi_view"
             android:layout_centerHorizontal="true"
-            android:layout_below="@id/tv_desc"
-            android:gravity="center_horizontal|top"
+            android:ellipsize="end"
+            android:gravity="bottom|center_horizontal"
             android:maxLines="2"
-            android:textColor="@android:color/white"
-            android:textSize="18sp"
-            tools:text="asdasdasdasdasd" />
-    </RelativeLayout>
+            android:textColor="@color/black20"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            tools:text="1921/2/12"/>
 
+    </RelativeLayout>
 
 
 </android.support.v7.widget.CardView>

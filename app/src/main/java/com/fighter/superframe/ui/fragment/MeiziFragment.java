@@ -4,18 +4,21 @@ import android.content.Intent;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
+import android.text.TextUtils;
 
 import com.adups.trace.Trace;
 import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
 import com.fighter.superframe.constant.GankType;
 import com.fighter.superframe.info.GankInfo;
+import com.fighter.superframe.ui.activity.GankActivity;
 import com.fighter.superframe.ui.activity.PhotoActivity;
 import com.fighter.superframe.ui.adapter.MeizhiListAdapter;
 import com.fighter.superframe.ui.base.SwipeRefreshBaseFragment;
 import com.fighter.superframe.ui.view.SpacesItemDecoration;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
@@ -62,12 +65,19 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
 
         adapter.setOnItemClickListener(new MeizhiListAdapter.OnItemClickListener() {
             @Override
-            public void onClick(GankInfo.ResultsBean info) {
+            public void onPicClick(GankInfo.ResultsBean info) {
                 Intent intent = new Intent(getActivity(), PhotoActivity.class);
-                Trace.d(TAG, "onClick() " + info.getUrl());
                 intent.putExtra(PhotoActivity.PHOTO_URL, info.getUrl());
                 getActivity().startActivity(intent);
             }
+
+            @Override
+            public void onTextClick(GankInfo.ResultsBean info) {
+                Intent intent = new Intent(getActivity(), GankActivity.class);
+                intent.putExtra(GankActivity.PUBLISH_DATE, info.getPublishedAt());
+                getActivity().startActivity(intent);
+            }
+
         });
     }
 
@@ -98,30 +108,36 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
 
     public void requestData(final boolean clear) {
 
-        Observable<GankInfo> shipingObserable = Network.getGankApi().getGankInfo(GankType.TYPE_SHIPING,"10",String.valueOf(mPage))
+        Observable<GankInfo> shipingObserable = Network.getGankApi().getGankInfo(GankType.TYPE_SHIPING, "10", String.valueOf(mPage))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
-        Observable<GankInfo> fuliObserable = Network.getGankApi().getGankInfo(GankType.TYPE_FULI,"10",String.valueOf(mPage))
+        Observable<GankInfo> fuliObserable = Network.getGankApi().getGankInfo(GankType.TYPE_FULI, "10", String.valueOf(mPage))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
 
         Observable.zip(shipingObserable, fuliObserable, new BiFunction<GankInfo, GankInfo, ArrayList<GankInfo.ResultsBean>>() {
             @Override
             public ArrayList<GankInfo.ResultsBean> apply(GankInfo gankInfo, GankInfo gankInfo2) throws Exception {
-                ArrayList<GankInfo.ResultsBean> resultsBeans = new ArrayList<>();
-                resultsBeans.addAll(gankInfo.getResults());
-                resultsBeans.addAll(gankInfo2.getResults());
-                return resultsBeans;
+
+                Trace.d(TAG, "apply() " + gankInfo.getResults().size() + "," + gankInfo2.getResults().size());
+                return getFuliWith视频desc(gankInfo2, gankInfo);
             }
         }).observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<ArrayList<GankInfo.ResultsBean>>() {
                     @Override
                     public void accept(ArrayList<GankInfo.ResultsBean> resultsBeans) throws Exception {
-                        if (clear){
+                        Trace.d(TAG, "accept() " + resultsBeans.size());
+                        if (clear) {
                             data_list.clear();
                         }
-                        data_list.addAll(resultsBeans);
+                        for (GankInfo.ResultsBean resultsBean : resultsBeans) {
+                            if (!TextUtils.isEmpty(resultsBean.getUrl())) {
+                                data_list.add(resultsBean);
+                            }
+                        }
+                        adapter.setData(data_list);
+                        setRefresh(false);
                     }
                 });
 
@@ -173,5 +189,36 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
 
 
     }
+
+    private ArrayList<GankInfo.ResultsBean> getFuliWith视频desc(GankInfo gankInfo, GankInfo gankInfo2) {
+        List<GankInfo.ResultsBean> fuli = gankInfo.getResults();
+        List<GankInfo.ResultsBean> shiping = gankInfo2.getResults();
+        for (int i = 0; i < fuli.size(); i++) {
+            fuli.get(i).setDesc(fuli.get(i).getDesc() + " " +
+                    getFirstVideoDesc(fuli.get(i).getPublishedAt(), shiping));
+        }
+        return (ArrayList<GankInfo.ResultsBean>) fuli;
+    }
+
+    int length = "2017-09-21".length();
+    private int mLastVideoIndex = 0;
+
+    private String getFirstVideoDesc(String publishedAt, List<GankInfo.ResultsBean> results) {
+        String videoDesc = "";
+        for (int i = 0; i < results.size(); i++) {
+            GankInfo.ResultsBean video = results.get(i);
+            if (video.getPublishedAt() == null)
+                video.setPublishedAt(video.getCreatedAt());
+
+            if (publishedAt.length() > length &&
+                    video.getPublishedAt().length() > length &&
+                    TextUtils.equals(publishedAt.substring(0, length), video.getPublishedAt().substring(0, length))) {
+                videoDesc = video.getDesc();
+                break;
+            }
+        }
+        return videoDesc;
+    }
+
 
 }
