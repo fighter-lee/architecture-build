@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.fighter.superframe.ui.activity.GankActivity2"
+    tools:showIn="@layout/activity_gank2">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_gank"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipChildren="false"
+        android:clipToPadding="false"
+        android:paddingBottom="40dp"
+        android:paddingTop="10dp"
+        tools:listitem="@layout/item_gank"
+        />
+
+    <ProgressBar
+        android:id="@+id/progressbar"
+        style="@style/Base.Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="match_parent"
+        android:layout_height="6dp"
+        android:indeterminate="true"/>
+
+</FrameLayout>

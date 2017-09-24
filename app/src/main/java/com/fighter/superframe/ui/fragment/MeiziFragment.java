@@ -11,7 +11,7 @@ import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
 import com.fighter.superframe.constant.GankType;
 import com.fighter.superframe.info.GankInfo;
-import com.fighter.superframe.ui.activity.GankActivity;
+import com.fighter.superframe.ui.activity.GankActivity2;
 import com.fighter.superframe.ui.activity.PhotoActivity;
 import com.fighter.superframe.ui.adapter.MeizhiListAdapter;
 import com.fighter.superframe.ui.base.SwipeRefreshBaseFragment;
@@ -73,8 +73,9 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
 
             @Override
             public void onTextClick(GankInfo.ResultsBean info) {
-                Intent intent = new Intent(getActivity(), GankActivity.class);
-                intent.putExtra(GankActivity.PUBLISH_DATE, info.getPublishedAt());
+                Intent intent = new Intent(getActivity(), GankActivity2.class);
+                intent.putExtra(GankActivity2.GANK_DESC_CONTENT, info.getDesc());
+                intent.putExtra(GankActivity2.GANK_DATA,info.getPublishedAt()==null?info.getCreatedAt():info.getPublishedAt());
                 getActivity().startActivity(intent);
             }
 
