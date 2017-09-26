@@ -5,4 +5,7 @@
 
     <item name="alipay_bar" type="id"/>
     <item name="alipay_snap" type="id"/>
+
+    <item name="statusbar_view" type="id"/>
+    <item name="translucent_view" type="id"/>
 </resources>

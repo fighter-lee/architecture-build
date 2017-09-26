@@ -2,6 +2,7 @@ package com.fighter.superframe.Network;
 
 
 import com.fighter.superframe.info.AndroidInfo;
+import com.fighter.superframe.info.GankDateInfo;
 import com.fighter.superframe.info.GankInfo;
 import com.fighter.superframe.info.ImageInfo;
 
@@ -80,4 +81,6 @@ public interface GankApi {
     @GET("data/{type}/{number}/{page}")
     Observable<GankInfo> getGankInfo(@Path("type") String type, @Path("number") String number, @Path("page") String page);
 
+    @GET("day/{year}/{month}/{day}")
+    Observable<GankDateInfo> getGankDateInfo(@Path("year") String year, @Path("month") String month, @Path("day") String day);
 }

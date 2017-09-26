@@ -16,15 +16,25 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
+import com.adups.trace.Trace;
+import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
+import com.fighter.superframe.info.GankDateInfo;
 import com.fighter.superframe.ui.adapter.GankAdapter;
 import com.fighter.superframe.ui.base.BaseActivity;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
 
 import butterknife.BindView;
+import io.reactivex.ObservableSource;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.functions.Consumer;
+import io.reactivex.functions.Function;
+import io.reactivex.schedulers.Schedulers;
 
 public class GankActivity2 extends BaseActivity {
 
@@ -50,7 +60,7 @@ public class GankActivity2 extends BaseActivity {
     private static final String TAG = "GankActivity2";
     private CollapsingToolbarLayoutState state;
     private String mTitle = "";
-    private Date mDate;
+    private Calendar mDate;
 
     private enum CollapsingToolbarLayoutState {
         EXPANDED,
@@ -60,9 +70,36 @@ public class GankActivity2 extends BaseActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
-
         getDataAndTitle();
         super.onCreate(savedInstanceState);
+        requestData();
+    }
+
+    private void requestData() {
+        Trace.d(TAG, "requestData() "+mDate.get(Calendar.YEAR)+","+(mDate.get(Calendar.MONTH)+1)+","+mDate.get(Calendar.DATE));
+        Network.getGankApi().getGankDateInfo(String.valueOf(mDate.get(Calendar.YEAR)),
+                String.valueOf(mDate.get(Calendar.MONTH)+1),
+                String.valueOf(mDate.get(Calendar.DATE)))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .flatMap(new Function<GankDateInfo, ObservableSource<ArrayList<Object>>>() {
+                    @Override
+                    public ObservableSource<ArrayList<Object>> apply(GankDateInfo gankDateInfo) throws Exception {
+                        GankDateInfo.ResultsBean results = gankDateInfo.getResults();
+                        List<String> category = gankDateInfo.getCategory();
+                        for (String s : category) {
+
+                        }
+                        return null;
+                    }
+                })
+                .observeOn(Schedulers.io())
+                .subscribe(new Consumer<ArrayList<Object>>() {
+                    @Override
+                    public void accept(ArrayList<Object> objects) throws Exception {
+
+                    }
+                });
     }
 
     private void getDataAndTitle() {
@@ -73,7 +110,8 @@ public class GankActivity2 extends BaseActivity {
         String date = dateAll.substring(0, "2017-09-20".length());
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
         try {
-            mDate = sdf.parse(date);
+            mDate = Calendar.getInstance();
+            mDate.setTime(sdf.parse(date));
         } catch (ParseException e) {
             e.printStackTrace();
         }
@@ -133,6 +171,16 @@ public class GankActivity2 extends BaseActivity {
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_gank2;
+    }
+
+    @Override
+    protected View getToolbar() {
+        return gankToolbar;
+    }
+
+    @Override
+    protected boolean translucentStatusBar() {
+        return true;
     }
 
     @Override

@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.adups.trace.Trace;
 import com.bumptech.glide.Glide;
 import com.fighter.superframe.R;
 import com.fighter.superframe.info.GankInfo;
@@ -96,7 +95,6 @@ public class MeizhiListAdapter extends RecyclerView.Adapter<MeizhiListAdapter.My
             int width = (ScreenUtil.getScreenWidth(mCx) - 4) / 2;
             params.height = (int) (width * 1.2);
             meiziView.setLayoutParams(params);
-            Trace.d(TAG, "MyViewHolder() " + meiziView.getHeight() + "," + meiziView.getWidth());
         }
 
     }

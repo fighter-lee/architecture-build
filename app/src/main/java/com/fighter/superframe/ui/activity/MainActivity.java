@@ -44,7 +44,6 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
         viewpageAdapter.addFragment(new MeiziFragment());
         homeViewPager.setAdapter(viewpageAdapter);
 
-
     }
 
     /**
@@ -61,6 +60,11 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_main;
+    }
+
+    @Override
+    protected View getToolbar() {
+        return idToolBar;
     }
 
 
