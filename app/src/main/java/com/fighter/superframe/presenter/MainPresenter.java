@@ -4,10 +4,6 @@ package com.fighter.superframe.presenter;
  * Created by fighter_lee on 2017/8/8.
  */
 
-public interface MainPresenter {
-    void start();
+public interface MainPresenter extends BasePresenter{
 
-    boolean getCacheData();
-
-    void getNetData();
 }

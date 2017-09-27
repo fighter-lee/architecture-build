@@ -1,6 +1,7 @@
 package com.fighter.superframe.gloable;
 
 import android.app.Application;
+import android.content.Context;
 
 import com.adups.trace.Trace;
 import com.umeng.message.IUmengRegisterCallback;
@@ -13,10 +14,12 @@ import com.umeng.message.PushAgent;
 public class MeiziApp extends Application {
 
     private static final String TAG = MeiziApp.class.getSimpleName();
+    public static Context sCx;
 
     @Override
     public void onCreate() {
         super.onCreate();
+        sCx = getApplicationContext();
         initTrace();
         initUmeng();
     }
@@ -34,7 +37,7 @@ public class MeiziApp extends Application {
 
             @Override
             public void onFailure(String s, String s1) {
-                Trace.d(TAG, "onFailure() "+s+","+s1);
+                Trace.d(TAG, "onFailure() " + s + "," + s1);
             }
         });
     }

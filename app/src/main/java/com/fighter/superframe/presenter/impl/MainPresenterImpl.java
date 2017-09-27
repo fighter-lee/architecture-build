@@ -16,7 +16,7 @@ import io.reactivex.schedulers.Schedulers;
  * Created by fighter_lee on 2017/8/8.
  */
 
-public class MainPresenterImpl implements MainPresenter{
+public class MainPresenterImpl implements MainPresenter {
 
     private Context mContext;
     private static final String TAG = "MainPresenterImpl";
@@ -27,32 +27,32 @@ public class MainPresenterImpl implements MainPresenter{
     }
 
     @Override
-    public void start() {
-        if (!getCacheData()){
-            getNetData();
-        }
+    public void init() {
+        getCacheData();
+
+        requestNetData();
+
     }
 
     @Override
-    public boolean getCacheData() {
-        //TODO 先读缓存
-        return false;
+    public void getCacheData() {
+
     }
 
     @Override
-    public void getNetData() {
+    public void requestNetData() {
 
     }
 
     public void getAndroidInfo() {
         Network.getGankApi()
-                .getRxAndroidInfo("10","1")
+                .getRxAndroidInfo("10", "1")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Consumer<AndroidInfo>() {
                     @Override
                     public void accept(AndroidInfo androidInfo) throws Exception {
-                        Trace.d(TAG, "accept() :"+androidInfo.getResults().size());
+                        Trace.d(TAG, "accept() :" + androidInfo.getResults().size());
                     }
                 });
     }

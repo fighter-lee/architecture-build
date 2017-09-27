@@ -38,7 +38,7 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
     protected void initView(Bundle savedInstanceState) {
 
         new MainPresenterImpl(this, this);
-        presenter.start();
+        presenter.init();
         initToolBar(idToolBar,false,"gank");
         MeiziViewpageAdapter viewpageAdapter = new MeiziViewpageAdapter(getSupportFragmentManager());
         viewpageAdapter.addFragment(new MeiziFragment());

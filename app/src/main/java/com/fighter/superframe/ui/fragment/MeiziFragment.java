@@ -22,9 +22,10 @@ import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observable;
+import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.Disposable;
 import io.reactivex.functions.BiFunction;
-import io.reactivex.functions.Consumer;
 import io.reactivex.schedulers.Schedulers;
 
 /**
@@ -75,7 +76,7 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
             public void onTextClick(GankInfo.ResultsBean info) {
                 Intent intent = new Intent(getActivity(), GankActivity2.class);
                 intent.putExtra(GankActivity2.GANK_DESC_CONTENT, info.getDesc());
-                intent.putExtra(GankActivity2.GANK_DATA,info.getPublishedAt()==null?info.getCreatedAt():info.getPublishedAt());
+                intent.putExtra(GankActivity2.GANK_DATA, info.getPublishedAt() == null ? info.getCreatedAt() : info.getPublishedAt());
                 getActivity().startActivity(intent);
             }
 
@@ -108,7 +109,7 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
     }
 
     public void requestData(final boolean clear) {
-
+        Trace.d(TAG, "requestData() ");
         Observable<GankInfo> shipingObserable = Network.getGankApi().getGankInfo(GankType.TYPE_SHIPING, "10", String.valueOf(mPage))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread());
@@ -125,9 +126,14 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
                 return getFuliWith视频desc(gankInfo2, gankInfo);
             }
         }).observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Consumer<ArrayList<GankInfo.ResultsBean>>() {
+                .subscribe(new Observer<ArrayList<GankInfo.ResultsBean>>() {
                     @Override
-                    public void accept(ArrayList<GankInfo.ResultsBean> resultsBeans) throws Exception {
+                    public void onSubscribe(Disposable disposable) {
+                        Trace.d(TAG, "onSubscribe() ");
+                    }
+
+                    @Override
+                    public void onNext(ArrayList<GankInfo.ResultsBean> resultsBeans) {
                         Trace.d(TAG, "accept() " + resultsBeans.size());
                         if (clear) {
                             data_list.clear();
@@ -140,55 +146,18 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
                         adapter.setData(data_list);
                         setRefresh(false);
                     }
-                });
-
-        /*Observable fuliObservable = Network.getGankApi()
-                .getGankInfo(GankType.TYPE_FULI,"10",String.valueOf(mPage))
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribeOn(Schedulers.io())
-                .subscribe(new Observer<GankInfo>() {
-                    @Override
-                    public void onSubscribe(Disposable disposable) {
-
-                    }
-
-                    @Override
-                    public void onNext(GankInfo gankInfo) {
-                        Trace.d(TAG, "onNext() " + gankInfo.getResults().size());
-                        if (clear) {
-                            data_list.clear();
-                        }
-                        data_list.addAll(gankInfo.getResults());
-                        adapter.setData(data_list);
-
-                        //实现切换
-                        //                        if (clear) {
-                        //                            if (null != layoutManager) {
-                        //                                layoutManager.setSpanCount(2);
-                        //                                list.postInvalidate();
-                        //                            }
-                        //                        } else {
-                        //                            if (null != layoutManager) {
-                        //                                layoutManager.setSpanCount(1);
-                        //                                list.postInvalidate();
-                        //                            }
-                        //                        }
-                    }
 
                     @Override
                     public void onError(Throwable throwable) {
-                        Trace.d(TAG, "onError() " + throwable.toString());
                         setRefresh(false);
+                        Trace.d(TAG, "onError() ");
                     }
 
                     @Override
                     public void onComplete() {
                         Trace.d(TAG, "onComplete() ");
-                        setRefresh(false);
                     }
-                });*/
-
-
+                });
     }
 
     private ArrayList<GankInfo.ResultsBean> getFuliWith视频desc(GankInfo gankInfo, GankInfo gankInfo2) {
