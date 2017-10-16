@@ -42,8 +42,6 @@ public class GankDateInfo {
         this.category = category;
     }
 
-    public static class DataBean{}
-
     public static class ResultsBean {
         private List<AndroidBean> Android;
         private List<AppBean> App;
@@ -118,7 +116,7 @@ public class GankDateInfo {
             this.福利 = 福利;
         }
 
-        public static class AndroidBean extends DataBean{
+        public static class AndroidBean {
             /**
              * _id : 59924c1b421aa9672cdf080a
              * createdAt : 2017-08-15T09:19:23.763Z
@@ -224,7 +222,7 @@ public class GankDateInfo {
             }
         }
 
-        public static class AppBean implements DataBean{
+        public static class AppBean {
             /**
              * _id : 59a53723421aa901c1c0a8a3
              * createdAt : 2017-08-29T17:42:59.847Z

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.adups.trace.Trace;
+import com.bumptech.glide.Glide;
 import com.fighter.superframe.Network.Network;
 import com.fighter.superframe.R;
 import com.fighter.superframe.info.GankDateInfo;
@@ -27,6 +28,7 @@ import com.fighter.superframe.ui.base.BaseActivity;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
@@ -59,6 +61,7 @@ public class GankActivity2 extends BaseActivity {
     private CollapsingToolbarLayoutState state;
     private String mTitle = "";
     private Calendar mDate;
+    private GankAdapter gankAdapter;
 
     private enum CollapsingToolbarLayoutState {
         EXPANDED,
@@ -87,7 +90,6 @@ public class GankActivity2 extends BaseActivity {
                 String.valueOf(mDate.get(Calendar.DATE)))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .observeOn(Schedulers.io())
                 .subscribe(new Observer<GankDateInfo>() {
                     @Override
                     public void onSubscribe(Disposable disposable) {
@@ -112,6 +114,44 @@ public class GankActivity2 extends BaseActivity {
     }
 
     private void showView(GankDateInfo gankDateInfo) {
+        GankDateInfo.ResultsBean results = gankDateInfo.getResults();
+        if (null != results.get福利()) {
+            if (null != results.get福利().get(0)) {
+                Glide.with(this)
+                        .load(results.get福利().get(0).getUrl())
+                        .fitCenter()
+                        .into(imageview);
+            }
+        }
+
+        if (null == gankAdapter){
+            return;
+        }
+
+        HashMap<String, Object> map = new HashMap<>();
+        for (String s : gankDateInfo.getCategory()) {
+            switch (s){
+                case "Android":
+                    map.put("Android",gankDateInfo.getResults().getAndroid());
+                    break;
+                case "前端":
+                    map.put("前端",gankDateInfo.getResults().get前端());
+                    break;
+                case "iOS":
+                    map.put("iOS",gankDateInfo.getResults().get前端());
+                    break;
+                case "App":
+                    map.put("App",gankDateInfo.getResults().getApp());
+                    break;
+                case "瞎推荐":
+                    map.put("瞎推荐",gankDateInfo.getResults().get瞎推荐());
+                    break;
+                case "拓展资源":
+                    map.put("拓展资源",gankDateInfo.getResults().get拓展资源());
+                    break;
+            }
+        }
+        gankAdapter.setDate(map);
 
     }
 
@@ -142,7 +182,7 @@ public class GankActivity2 extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBar(gankToolbar, true, "");
-        GankAdapter gankAdapter = new GankAdapter();
+        gankAdapter = new GankAdapter();
         rvGank.setLayoutManager(new LinearLayoutManager(this));
         rvGank.setAdapter(gankAdapter);
         gankFab.setOnClickListener(new View.OnClickListener() {
