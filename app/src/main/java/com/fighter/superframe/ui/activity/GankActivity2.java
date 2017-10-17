@@ -11,6 +11,7 @@ import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -24,11 +25,14 @@ import com.fighter.superframe.info.GankDateInfo;
 import com.fighter.superframe.ui.adapter.DailyAdapter;
 import com.fighter.superframe.ui.adapter.GankAdapter;
 import com.fighter.superframe.ui.base.BaseActivity;
+import com.fighter.superframe.ui.expandRecyclerview.ChildBean;
+import com.fighter.superframe.ui.expandRecyclerview.GroupBean;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.HashMap;
+import java.util.List;
 
 import butterknife.BindView;
 import io.reactivex.Observer;
@@ -37,7 +41,6 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class GankActivity2 extends BaseActivity {
-
 
     public static final String GANK_DESC_CONTENT = "gank_desc_content";
     public static final String GANK_DATA = "gank_data";
@@ -124,35 +127,67 @@ public class GankActivity2 extends BaseActivity {
             }
         }
 
-        if (null == gankAdapter){
-            return;
-        }
-
-        HashMap<String, Object> map = new HashMap<>();
+        List<GroupBean> groups = new ArrayList<>();
         for (String s : gankDateInfo.getCategory()) {
-            switch (s){
+            switch (s) {
                 case "Android":
-                    map.put("Android",gankDateInfo.getResults().getAndroid());
+                    groups.add(new GroupBean("Android", setChildData(gankDateInfo.getResults().getAndroid())));
                     break;
                 case "前端":
-                    map.put("前端",gankDateInfo.getResults().get前端());
+                    groups.add(new GroupBean("前端", setChildData(gankDateInfo.getResults().get前端())));
                     break;
                 case "iOS":
-                    map.put("iOS",gankDateInfo.getResults().get前端());
+                    groups.add(new GroupBean("iOS", setChildData(gankDateInfo.getResults().getIOS())));
                     break;
                 case "App":
-                    map.put("App",gankDateInfo.getResults().getApp());
+                    groups.add(new GroupBean("App", setChildData(gankDateInfo.getResults().getApp())));
                     break;
                 case "瞎推荐":
-                    map.put("瞎推荐",gankDateInfo.getResults().get瞎推荐());
+                    groups.add(new GroupBean("瞎推荐", setChildData(gankDateInfo.getResults().get瞎推荐())));
                     break;
                 case "拓展资源":
-                    map.put("拓展资源",gankDateInfo.getResults().get拓展资源());
+                    groups.add(new GroupBean("拓展资源", setChildData(gankDateInfo.getResults().get拓展资源())));
                     break;
             }
         }
-        gankAdapter.setDate(map);
 
+        gankAdapter = new GankAdapter(groups);
+        rvGank.setLayoutManager(new LinearLayoutManager(this));
+        rvGank.setAdapter(gankAdapter);
+    }
+
+    private List<ChildBean> setChildData(Object o) {
+        List<ChildBean> items = new ArrayList<>();
+        List<GankDateInfo.Bean> beanList = (List<GankDateInfo.Bean>) o;
+        for (GankDateInfo.Bean bean : beanList) {
+            ChildBean childBean = new ChildBean();
+            if (null != bean.getImages() && !TextUtils.isEmpty(bean.getImages().get(0))) {
+                childBean.setImageUrl(bean.getImages().get(0));
+            }
+            childBean.setAuthor(getAuthorAndTime(bean.getWho(), bean.getPublishedAt(), bean.getCreatedAt()));
+            if (!TextUtils.isEmpty(bean.getDesc())) {
+                childBean.setDesc(bean.getDesc());
+            }
+            items.add(childBean);
+        }
+        return items;
+    }
+
+    private String getAuthorAndTime(@Nullable String who, @Nullable String publishedAt, @Nullable String creatAt) {
+        StringBuilder builder = new StringBuilder();
+        if (!TextUtils.isEmpty(who)) {
+            builder.append(who)
+                    .append("-");
+        }
+        if (!TextUtils.isEmpty(publishedAt)) {
+            builder.append(publishedAt.substring(0, "2017-08-15".length()));
+            return builder.toString();
+        }
+        if (!TextUtils.isEmpty(creatAt)) {
+            builder.append(creatAt.substring(0, "2017-08-15".length()));
+            return builder.toString();
+        }
+        return "";
     }
 
     private void getDataAndTitle() {
@@ -182,9 +217,6 @@ public class GankActivity2 extends BaseActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBar(gankToolbar, true, "");
-        gankAdapter = new GankAdapter();
-        rvGank.setLayoutManager(new LinearLayoutManager(this));
-        rvGank.setAdapter(gankAdapter);
         gankFab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

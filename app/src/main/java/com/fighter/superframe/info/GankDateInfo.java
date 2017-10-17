@@ -42,6 +42,65 @@ public class GankDateInfo {
         this.category = category;
     }
 
+    public static class Bean{
+        public String getCreatedAt() {
+            return createdAt;
+        }
+
+        public void setCreatedAt(String createdAt) {
+            this.createdAt = createdAt;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+
+        public String getPublishedAt() {
+            return publishedAt;
+        }
+
+        public void setPublishedAt(String publishedAt) {
+            this.publishedAt = publishedAt;
+        }
+
+        public String getWho() {
+            return who;
+        }
+
+        public void setWho(String who) {
+            this.who = who;
+        }
+
+        public List<String> getImages() {
+            return images;
+        }
+
+        public void setImages(List<String> images) {
+            this.images = images;
+        }
+
+        private String createdAt;
+        private String desc;
+        private String publishedAt;
+        private String who;
+        private List<String> images;
+
+        public String getUrl() {
+            return url;
+        }
+
+        public void setUrl(String url) {
+            this.url = url;
+        }
+
+        private String url;
+
+    }
+
     public static class ResultsBean {
         private List<AndroidBean> Android;
         private List<AppBean> App;
@@ -116,7 +175,7 @@ public class GankDateInfo {
             this.福利 = 福利;
         }
 
-        public static class AndroidBean {
+        public static class AndroidBean extends Bean {
             /**
              * _id : 59924c1b421aa9672cdf080a
              * createdAt : 2017-08-15T09:19:23.763Z
@@ -131,15 +190,9 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String source;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
-            private List<String> images;
 
             public String get_id() {
                 return _id;
@@ -147,30 +200,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getSource() {
@@ -189,14 +218,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -205,24 +226,9 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
-
-            public List<String> getImages() {
-                return images;
-            }
-
-            public void setImages(List<String> images) {
-                this.images = images;
-            }
         }
 
-        public static class AppBean {
+        public static class AppBean extends Bean{
             /**
              * _id : 59a53723421aa901c1c0a8a3
              * createdAt : 2017-08-29T17:42:59.847Z
@@ -237,15 +243,9 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String source;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
-            private List<String> images;
 
             public String get_id() {
                 return _id;
@@ -253,30 +253,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getSource() {
@@ -295,14 +271,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -311,24 +279,9 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
-
-            public List<String> getImages() {
-                return images;
-            }
-
-            public void setImages(List<String> images) {
-                this.images = images;
-            }
         }
 
-        public static class IOSBean {
+        public static class IOSBean extends Bean{
             /**
              * _id : 599a482a421aa901c85e5fa1
              * createdAt : 2017-08-21T10:40:42.831Z
@@ -343,15 +296,9 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String source;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
-            private List<String> images;
 
             public String get_id() {
                 return _id;
@@ -359,30 +306,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getSource() {
@@ -401,14 +324,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -417,21 +332,6 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
-
-            public List<String> getImages() {
-                return images;
-            }
-
-            public void setImages(List<String> images) {
-                this.images = images;
-            }
         }
 
         public static class 休息视频Bean {
@@ -530,7 +430,7 @@ public class GankDateInfo {
             }
         }
 
-        public static class 前端Bean {
+        public static class 前端Bean extends Bean{
             /**
              * _id : 59956786421aa9672f354ddc
              * createdAt : 2017-08-17T17:53:10.396Z
@@ -544,14 +444,9 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String source;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
 
             public String get_id() {
                 return _id;
@@ -559,30 +454,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getSource() {
@@ -601,14 +472,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -617,16 +480,9 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
         }
 
-        public static class 拓展资源Bean {
+        public static class 拓展资源Bean extends Bean{
             /**
              * _id : 599a416a421aa901c1c0a859
              * createdAt : 2017-08-21T10:11:54.707Z
@@ -640,14 +496,9 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String source;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
 
             public String get_id() {
                 return _id;
@@ -655,30 +506,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getSource() {
@@ -697,14 +524,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -713,16 +532,9 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
         }
 
-        public static class 瞎推荐Bean {
+        public static class 瞎推荐Bean extends Bean{
             /**
              * _id : 56cc6d1d421aa95caa707763
              * createdAt : 2015-08-08T16:04:47.987Z
@@ -735,13 +547,8 @@ public class GankDateInfo {
              */
 
             private String _id;
-            private String createdAt;
-            private String desc;
-            private String publishedAt;
             private String type;
-            private String url;
             private boolean used;
-            private String who;
 
             public String get_id() {
                 return _id;
@@ -749,30 +556,6 @@ public class GankDateInfo {
 
             public void set_id(String _id) {
                 this._id = _id;
-            }
-
-            public String getCreatedAt() {
-                return createdAt;
-            }
-
-            public void setCreatedAt(String createdAt) {
-                this.createdAt = createdAt;
-            }
-
-            public String getDesc() {
-                return desc;
-            }
-
-            public void setDesc(String desc) {
-                this.desc = desc;
-            }
-
-            public String getPublishedAt() {
-                return publishedAt;
-            }
-
-            public void setPublishedAt(String publishedAt) {
-                this.publishedAt = publishedAt;
             }
 
             public String getType() {
@@ -783,14 +566,6 @@ public class GankDateInfo {
                 this.type = type;
             }
 
-            public String getUrl() {
-                return url;
-            }
-
-            public void setUrl(String url) {
-                this.url = url;
-            }
-
             public boolean isUsed() {
                 return used;
             }
@@ -799,13 +574,6 @@ public class GankDateInfo {
                 this.used = used;
             }
 
-            public String getWho() {
-                return who;
-            }
-
-            public void setWho(String who) {
-                this.who = who;
-            }
         }
 
         public static class 福利Bean {
