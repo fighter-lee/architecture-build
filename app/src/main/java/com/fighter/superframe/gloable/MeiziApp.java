@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 
 import com.adups.trace.Trace;
+import com.fighter.superframe.BuildConfig;
+import com.fighter.superframe.utils.LogUtils;
 import com.umeng.message.IUmengRegisterCallback;
 import com.umeng.message.PushAgent;
 
@@ -20,7 +22,7 @@ public class MeiziApp extends Application {
     public void onCreate() {
         super.onCreate();
         sCx = getApplicationContext();
-        initTrace();
+        LogUtils.getConfig().setLogSwitch(BuildConfig.DEBUG_MODE);
         initUmeng();
     }
 
@@ -40,11 +42,5 @@ public class MeiziApp extends Application {
                 Trace.d(TAG, "onFailure() " + s + "," + s1);
             }
         });
-    }
-
-    private void initTrace() {
-        Trace.setLevel(Trace.DEBUG);
-        Trace.setShowPosition(true);
-        Trace.write_file(false);
     }
 }

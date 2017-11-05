@@ -90,8 +90,8 @@
     </content>
     <orderEntry type="jdk" jdkName="Android API 23 Platform" jdkType="Android SDK" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" exported="" name="utdid4all-1.1.5.3_proguard" level="project" />
-    <orderEntry type="library" exported="" name="com.umeng.message_3.1.1a" level="project" />
-    <orderEntry type="library" exported="" name="alicloud-android-sdk-httpdns-1.0.7" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:H.\android\code\workspace\SuperFrame\Pushlib\libs\utdid4all-1.1.5.3_proguard.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:H.\android\code\workspace\SuperFrame\Pushlib\libs\com.umeng.message_3.1.1a.jar:unspecified@jar" level="project" />
+    <orderEntry type="library" exported="" name="__local_jars__:H.\android\code\workspace\SuperFrame\Pushlib\libs\alicloud-android-sdk-httpdns-1.0.7.jar:unspecified@jar" level="project" />
   </component>
 </module>
