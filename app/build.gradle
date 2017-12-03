@@ -18,6 +18,18 @@ android {
         buildConfigField("int", "CONNECT_TIMEOUT", CONNECT_TIMEOUT)
         buildConfigField("int", "WRITE_TIMEOUT", WRITE_TIMEOUT)
         buildConfigField("int", "READ_TIMEOUT", READ_TIMEOUT)
+
+        ndk {
+            //根据需要 自行选择添加的对应cpu类型的.so库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+
+                XG_ACCESS_ID:"2100272131",
+                XG_ACCESS_KEY : "A26Q47F7UPTN",
+        ]
     }
 
     signingConfigs {
@@ -42,14 +54,17 @@ android {
     }
 
     productFlavors {
-        xiaomi {}
+        xiaomi {
+            applicationIdSuffix ".xiaomi"
+            versionNameSuffix "-xiaomi"
+        }
         wangdoujia {}
         yingyongbao {}
     }
 
     android.applicationVariants.all { variant ->
         variant.outputs.all {
-            outputFileName = "${variant.name}-${variant.versionName}.apk"
+            outputFileName = "妹纸-${variant.name}-${variant.versionName}.apk"
         }
     }
 //    android.applicationVariants.all { variant ->
@@ -86,8 +101,13 @@ dependencies {
 
     compile 'com.adups.iot:trace:1.0.2' //日志类
     compile 'com.thoughtbot:expandablerecyclerview:1.3'
-    //友盟
-//    compile project(':Pushlib')
+
+    //信鸽jar
+    compile 'com.tencent.xinge:xinge:3.1.2-release'
+    //wup包
+    compile 'com.tencent.wup:wup:1.0.0.E-release'
+    //mid包
+    compile 'com.tencent.mid:mid:3.9.0-release'
 
 //    compile 'cn.bmob.android:bmob-sdk:3.5.5'
 }
