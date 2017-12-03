@@ -97,8 +97,7 @@ public class MeiziFragment extends SwipeRefreshBaseFragment {
             public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
                 super.onScrolled(recyclerView, dx, dy);
                 boolean isBottom =
-                        layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1] >=
-                                adapter.getItemCount() - PRELOAD_SIZE;
+                        layoutManager.findLastCompletelyVisibleItemPositions(new int[2])[1] >= adapter.getItemCount() - PRELOAD_SIZE;
                 if (!swipeRefreshLayout.isRefreshing() && isBottom) {
                     swipeRefreshLayout.setRefreshing(true);
                     mPage += 1;

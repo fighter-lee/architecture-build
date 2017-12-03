@@ -10,11 +10,20 @@
 
     <include layout="@layout/base_toolbar"/>
 
-    <android.support.v4.view.ViewPager
-        android:id="@+id/home_viewPager"
+    <FrameLayout
+        android:id="@+id/fl_home"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+
+    <android.support.design.widget.BottomNavigationView
+        android:id="@+id/navigation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="?android:attr/windowBackground"
+        android:layout_gravity="bottom"
+        app:layout_scrollFlags="scroll|enterAlways|snap"
+        app:menu="@menu/main_navigation"/>
 
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/fab"

@@ -22,16 +22,6 @@
         </activity>
         <activity android:name=".ui.activity.PhotoActivity"/>
 
-        <meta-data
-            android:name="UMENG_APPKEY"
-            android:value="59c1c8a0734be457f3000017"/>
-        <meta-data
-            android:name="UMENG_MESSAGE_SECRET"
-            android:value="7e9df6bfaa78ba79818b2af42b9626e1"/>
-        <meta-data
-            android:name="${UMENG_CHANNEL_VALUE}"
-            android:value="Channel_ID"/>
-
         <activity
             android:name=".ui.activity.GankActivity2">
         </activity>

@@ -8,7 +8,6 @@ import android.view.View;
 import com.fighter.superframe.R;
 import com.fighter.superframe.utils.ActivityCollector;
 import com.fighter.superframe.utils.SystemBarHelper;
-import com.umeng.message.PushAgent;
 
 import butterknife.ButterKnife;
 
@@ -21,7 +20,6 @@ public abstract class BaseActivity extends AppCompatActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        PushAgent.getInstance(this).onAppStart();
         ActivityCollector.addActivity(this, getClass());
 
         if (getContentViewLayoutID() != 0) {

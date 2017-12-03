@@ -4,19 +4,19 @@ package com.fighter.superframe.ui.activity;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.Toast;
 
 import com.fighter.superframe.R;
 import com.fighter.superframe.presenter.impl.MainPresenterImpl;
 import com.fighter.superframe.ui.MainView;
-import com.fighter.superframe.ui.adapter.MeiziViewpageAdapter;
 import com.fighter.superframe.ui.base.BaseActivity;
 import com.fighter.superframe.ui.fragment.MeiziFragment;
+import com.fighter.superframe.utils.FragmentUtils;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -27,10 +27,10 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
     Toolbar idToolBar;
     @BindView(R.id.appbar)
     AppBarLayout appbar;
-    @BindView(R.id.home_viewPager)
-    ViewPager homeViewPager;
     @BindView(R.id.fab)
     FloatingActionButton fab;
+    @BindView(R.id.fl_home)
+    FrameLayout flHome;
     private MainPresenterImpl presenter;
     private static final String TAG = "MainActivity";
 
@@ -39,11 +39,14 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
 
         new MainPresenterImpl(this, this);
         presenter.init();
-        initToolBar(idToolBar,false,"gank");
-        MeiziViewpageAdapter viewpageAdapter = new MeiziViewpageAdapter(getSupportFragmentManager());
-        viewpageAdapter.addFragment(new MeiziFragment());
-        homeViewPager.setAdapter(viewpageAdapter);
+        initToolBar(idToolBar, false, "gank");
+        initFragment();
 
+    }
+
+    private void initFragment() {
+        MeiziFragment meiziFragment = new MeiziFragment();
+        FragmentUtils.addFragment(getSupportFragmentManager(),meiziFragment,R.id.fl_home,false);
     }
 
     /**
