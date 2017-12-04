@@ -20,9 +20,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".ui.activity.PhotoActivity"/>
-
+        <activity android:name=".ui.activity.GankActivity2">
+        </activity>
         <activity
-            android:name=".ui.activity.GankActivity2">
+            android:name=".ui.activity.ScrollingActivity"
+            android:theme="@style/AppTheme">
+
         </activity>
     </application>
 

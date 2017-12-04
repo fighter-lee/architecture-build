@@ -7,7 +7,6 @@ import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.ButtonBarLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
@@ -16,6 +15,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 
 import com.adups.trace.Trace;
 import com.bumptech.glide.Glide;
@@ -27,6 +27,7 @@ import com.fighter.superframe.ui.adapter.GankAdapter;
 import com.fighter.superframe.ui.base.BaseActivity;
 import com.fighter.superframe.ui.expandRecyclerview.ChildBean;
 import com.fighter.superframe.ui.expandRecyclerview.GroupBean;
+import com.fighter.superframe.utils.LogUtils;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -59,7 +60,7 @@ public class GankActivity2 extends BaseActivity {
     @BindView(R.id.imageview)
     ImageView imageview;
     @BindView(R.id.gank_playButton)
-    ButtonBarLayout gankPlayButton;
+    RelativeLayout gankPlayButton;
     private static final String TAG = "GankActivity2";
     private CollapsingToolbarLayoutState state;
     private String mTitle = "";
@@ -215,6 +216,11 @@ public class GankActivity2 extends BaseActivity {
     }
 
     @Override
+    protected int setStatusBarColor() {
+        return getResources().getColor(android.R.color.transparent);
+    }
+
+    @Override
     protected void initView(Bundle savedInstanceState) {
         initToolBar(gankToolbar, true, "");
         gankFab.setOnClickListener(new View.OnClickListener() {
@@ -228,8 +234,11 @@ public class GankActivity2 extends BaseActivity {
         gankAppBar.addOnOffsetChangedListener(new AppBarLayout.OnOffsetChangedListener() {
             @Override
             public void onOffsetChanged(AppBarLayout appBarLayout, int verticalOffset) {
+
                 if (verticalOffset == 0) {
+
                     if (state != CollapsingToolbarLayoutState.EXPANDED) {
+                        LogUtils.d(TAG,"verticalOffset == 0"+mTitle);;
                         state = CollapsingToolbarLayoutState.EXPANDED;//修改状态标记为展开
                         gankToolbarLayout.setTitle(mTitle);//设置title为EXPANDED
                     }
@@ -244,6 +253,7 @@ public class GankActivity2 extends BaseActivity {
                         if (state == CollapsingToolbarLayoutState.COLLAPSED) {
                             gankPlayButton.setVisibility(View.GONE);//由折叠变为中间状态时隐藏播放按钮
                         }
+                        LogUtils.d(TAG,"else"+mTitle);
                         gankToolbarLayout.setTitle(mTitle);
                         state = CollapsingToolbarLayoutState.INTERNEDIATE;//修改状态标记为中间
                     }
@@ -256,16 +266,6 @@ public class GankActivity2 extends BaseActivity {
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_gank2;
-    }
-
-    @Override
-    protected View getToolbar() {
-        return gankToolbar;
-    }
-
-    @Override
-    protected boolean translucentStatusBar() {
-        return true;
     }
 
     @Override

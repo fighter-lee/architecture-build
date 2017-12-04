@@ -1,6 +1,5 @@
 <resources>
     <string name="app_name">SuperFrame</string>
-    <string name="app_name2">SuperFrame2</string>
 
     <string name="simple_view_behavior">com.fighter.superframe.ui.view.SimpleViewBehavior</string>
     <string name="translate_up_down_behavior">com.fighter.superframe.ui.view.TranslateUpDownBehavior</string>
@@ -100,4 +99,5 @@
     <string name="action_settings">Settings</string>
     <string name="title_daily">每日</string>
     <string name="title_classify">分类</string>
+    <string name="title_activity_scrolling">ScrollingActivity</string>
 </resources>

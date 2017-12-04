@@ -1,13 +1,16 @@
 package com.fighter.superframe.ui.base;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import com.fighter.superframe.R;
 import com.fighter.superframe.utils.ActivityCollector;
-import com.fighter.superframe.utils.SystemBarHelper;
+import com.readystatesoftware.systembartint.SystemBarTintManager;
 
 import butterknife.ButterKnife;
 
@@ -26,7 +29,23 @@ public abstract class BaseActivity extends AppCompatActivity {
             setContentView(getContentViewLayoutID());
             initView(savedInstanceState);
         }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            setTranslucentStatus(true);
+        }
         initSystemBar();
+    }
+
+    @TargetApi(19)
+    private void setTranslucentStatus(boolean on) {
+        Window win = getWindow();
+        WindowManager.LayoutParams winParams = win.getAttributes();
+        final int bits = WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS;
+        if (on) {
+            winParams.flags |= bits;
+        } else {
+            winParams.flags &= ~bits;
+        }
+        win.setAttributes(winParams);
     }
 
     @Override
@@ -46,26 +65,12 @@ public abstract class BaseActivity extends AppCompatActivity {
 
 
     private void initSystemBar() {
-        if (translucentStatusBar()) {
-            if (null == getToolbar()) {
-                return;
-            }
-            SystemBarHelper.immersiveStatusBar(this, 0);
-            SystemBarHelper.setHeightAndPadding(this, getToolbar());
-            return;
+        SystemBarTintManager mTintManager = new SystemBarTintManager(this);
+        mTintManager.setStatusBarTintEnabled(true);
+        mTintManager.setNavigationBarTintEnabled(true);
+        if (tintStatusBar()){
+            mTintManager.setTintColor(setStatusBarColor());
         }
-        if (tintStatusBar()) {
-            SystemBarHelper.tintStatusBar(this, setStatusBarColor(), 0);
-            return;
-        }
-
-    }
-
-    /**
-     * 子类可以重写决定是否使用透明状态栏
-     */
-    protected boolean translucentStatusBar() {
-        return false;
     }
 
     /**
@@ -75,15 +80,6 @@ public abstract class BaseActivity extends AppCompatActivity {
      */
     protected boolean tintStatusBar() {
         return true;
-    }
-
-    /**
-     * 获取toolbar
-     *
-     * @return
-     */
-    protected View getToolbar() {
-        return null;
     }
 
     /**

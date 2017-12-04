@@ -66,12 +66,6 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
     }
 
     @Override
-    protected View getToolbar() {
-        return idToolBar;
-    }
-
-
-    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main_menu, menu);
         return true;

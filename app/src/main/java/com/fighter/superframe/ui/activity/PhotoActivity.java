@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 
 import com.bumptech.glide.Glide;
 import com.fighter.superframe.R;
@@ -42,11 +41,6 @@ public class PhotoActivity extends BaseActivity {
     @Override
     protected int getContentViewLayoutID() {
         return R.layout.activity_photo;
-    }
-
-    @Override
-    protected View getToolbar() {
-        return idToolBar;
     }
 
     /**
