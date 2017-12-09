@@ -15,18 +15,25 @@
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay">
 
+        <!--ToolBar被折叠到顶部固定时候 status bar的背景-->
         <!--app:statusBarScrim="?attr/colorPrimary"-->
+
+        <!--ToolBar被折叠到顶部固定时候的背景-->
         <!--app:contentScrim="?attr/colorPrimary"-->
         <android.support.design.widget.CollapsingToolbarLayout
             android:id="@+id/gank_toolbar_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:fitsSystemWindows="true"
+            app:contentScrim="?attr/colorPrimary"
+            app:statusBarScrim="?attr/colorPrimary"
             app:expandedTitleTextAppearance="@style/TextAppearance.AppCompat.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
+            <!--关于fitsSystemWindows 的疑惑参考 http://www.jianshu.com/p/5cc3bd23be7b-->
             <ImageView
                 android:id="@+id/imageview"
+                android:fitsSystemWindows="true"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:adjustViewBounds="true"

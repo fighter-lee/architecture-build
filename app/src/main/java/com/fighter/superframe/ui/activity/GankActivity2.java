@@ -215,10 +215,10 @@ public class GankActivity2 extends BaseActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(homeAsUpEnabled);
     }
 
-    @Override
-    protected int setStatusBarColor() {
-        return getResources().getColor(android.R.color.transparent);
-    }
+//    @Override
+//    protected int setStatusBarColor() {
+//        return getResources().getColor(android.R.color.transparent);
+//    }
 
     @Override
     protected void initView(Bundle savedInstanceState) {

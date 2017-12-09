@@ -36,10 +36,10 @@ public class MainActivity extends BaseActivity implements MainView<MainPresenter
 
     @Override
     protected void initView(Bundle savedInstanceState) {
+        initToolBar(idToolBar, false, "gank");
 
         new MainPresenterImpl(this, this);
         presenter.init();
-        initToolBar(idToolBar, false, "gank");
         initFragment();
 
     }

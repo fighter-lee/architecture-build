@@ -67,16 +67,6 @@ android {
             outputFileName = "妹纸-${variant.name}-${variant.versionName}.apk"
         }
     }
-//    android.applicationVariants.all { variant ->
-//        variant.outputs.each { output ->
-//            output.outputFile = new File(output.outputFile.parent, rootProject.getName()
-//                    + "-" + variant.flavorName
-//                    + "-" + buildType.name
-//                    + "-v" + defaultConfig.versionName
-//                    + "-" + defaultConfig.versionCode
-//                    + ".apk");
-//        }
-//    }
 }
 
 dependencies {
